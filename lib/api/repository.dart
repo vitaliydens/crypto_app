@@ -39,7 +39,6 @@ class CoinRepository implements Repository {
     }  catch (e) {
       if (e is DioError) {
         if (e.error is SocketException) {
-          print('---------');
           return ApiResponse(error: e.message);
         }
       } else {
@@ -56,12 +55,15 @@ class CoinRepository implements Repository {
       final Response<Map<String, dynamic>> response =
       await dio.get<Map<String, dynamic>>(url);
       print(response.data);
+      var message = response.data!['Message'];
+      if (message != null) {
+        return ApiResponse(error: message);
+      }
       var coinsData = CoinPrice.fromJson(response.data!);
       return ApiResponse(data: coinsData);
     }  catch (e) {
       if (e is DioError) {
         if (e.error is SocketException) {
-          print('---------');
           return ApiResponse(error: e.message);
         }
       } else {

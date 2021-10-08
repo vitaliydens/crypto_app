@@ -21,14 +21,13 @@ class _CoinsListPageState extends State<CoinsListPage> {
           title: Text(S.of(context).priceTitle),
         ),
         body: BlocProvider(
-          create: (context) => ListCoinsBlocCubit(CoinRepository())..loadCoinsData(),
+          create: (context) =>
+              ListCoinsBlocCubit(CoinRepository())..loadCoinsData(),
           child: Builder(builder: (context) {
             return BlocBuilder<ListCoinsBlocCubit, ListCoinsBlocState>(
               bloc: BlocProvider.of<ListCoinsBlocCubit>(context, listen: false),
               builder: (context, state) {
-                if (state is ListCoinsBlocInitial) {
-                  return const SizedBox();
-                } else if (state is LoadingCoinsState) {
+                if (state is LoadingCoinsState) {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
@@ -51,9 +50,15 @@ class _CoinsListPageState extends State<CoinsListPage> {
                           },
                         );
                       });
+                } else if (state is ErrorLoadCoinsState) {
+                  final snackBar = SnackBar(content: Text(state.error));
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  });
                 } else {
                   return const SizedBox();
                 }
+                return const SizedBox();
               },
             );
           }),

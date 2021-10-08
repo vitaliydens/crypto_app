@@ -19,12 +19,11 @@ class CoinPricePage extends StatelessWidget {
         title: Text(S.of(context).title),
       ),
       body: BlocProvider(
-          create: (context) => CoinPriceCubit(CoinRepository())..loadCoinPrice(coinSymbol),
+          create: (context) =>
+              CoinPriceCubit(CoinRepository())..loadCoinPrice(coinSymbol),
           child: BlocBuilder<CoinPriceCubit, CoinPriceState>(
             builder: (context, state) {
-              if (state is CoinPriceInitial) {
-                return const SizedBox();
-              } else if (state is LoadingCoinPriceState) {
+              if (state is LoadingCoinPriceState) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
@@ -46,9 +45,15 @@ class CoinPricePage extends StatelessWidget {
                     ],
                   ),
                 );
+              } else if (state is ErrorLoadCoinPriceState) {
+                final snackBar = SnackBar(content: Text(state.error));
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                });
               } else {
                 return const SizedBox();
               }
+              return const SizedBox();
             },
           )),
     );
