@@ -39,7 +39,7 @@ class CoinPricePage extends StatelessWidget {
                       ),
                       Expanded(
                         child: Text(
-                          'USD - ${state.data.usd}\n EUR - ${state.data.eur}',
+                          'USD - ${state.data.usd}\nEUR - ${state.data.eur}',
                           style: Theme.of(context).textTheme.headline4,
                         ),
                       ),

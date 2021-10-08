@@ -5,12 +5,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const CryptoApp());
 }
 
-class MyApp extends StatelessWidget {
+class CryptoApp extends StatelessWidget {
 
-  const MyApp({Key? key}) : super(key: key);
+  const CryptoApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

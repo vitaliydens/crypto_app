@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CryptoCell extends StatelessWidget {
-  final Datum coin;
+  final CryptoCoin coin;
   final VoidCallback onPressed;
 
   const CryptoCell({Key? key, required this.coin, required this.onPressed})
