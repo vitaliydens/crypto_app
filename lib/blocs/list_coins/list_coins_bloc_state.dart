@@ -14,6 +14,13 @@ class LoadedCoinsState extends ListCoinsBlocState {
 
 }
 
+class LoadedCoinPriceState extends ListCoinsBlocState {
+  final CoinPrice data;
+  final String coinName;
+
+  LoadedCoinPriceState(this.data, this.coinName);
+}
+
 class ErrorLoadCoinsState extends ListCoinsBlocState {
 
   final String error;

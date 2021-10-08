@@ -1,4 +1,5 @@
 {
   "@@locale": "en",
-  "title": "List crypto"
+  "title": "List crypto",
+  "priceTitle": "Coin price"
 }

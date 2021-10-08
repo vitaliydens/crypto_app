@@ -1,12 +1,12 @@
-import 'dart:developer';
 import 'dart:io';
-
 import 'package:crypto_app/api/entities/api_response.dart';
 import 'package:crypto_app/api/entities/coins_data.dart';
 import 'package:dio/dio.dart';
+import 'entities/coin_price.dart';
 
 abstract class Repository {
   Future<ApiResponse<CoinsData>> fetchListBlockChain();
+  Future<ApiResponse<CoinPrice>> fetchCoinPrice(String symbol);
 }
 
 class CoinRepository implements Repository {
@@ -34,6 +34,7 @@ class CoinRepository implements Repository {
       final Response<Map<String, dynamic>> response =
           await dio.get<Map<String, dynamic>>(url);
       var coinsData = CoinsData.fromJson(response.data!);
+      print(response.data);
       return ApiResponse(data: coinsData);
     }  catch (e) {
       if (e is DioError) {
@@ -48,14 +49,14 @@ class CoinRepository implements Repository {
     return ApiResponse();
   }
 
-  Future<ApiResponse<CoinsData>> fetchCoinPrice(String symbol) async {
+  Future<ApiResponse<CoinPrice>> fetchCoinPrice(String symbol) async {
     var url = apiUrl + coinPriceUrl + '?fsym=$symbol' + '&tsyms=USD,EUR' + '&api_key=' + cryptoApiKey;
     print(url);
     try {
       final Response<Map<String, dynamic>> response =
       await dio.get<Map<String, dynamic>>(url);
       print(response.data);
-      var coinsData = CoinsData.fromJson(response.data!);
+      var coinsData = CoinPrice.fromJson(response.data!);
       return ApiResponse(data: coinsData);
     }  catch (e) {
       if (e is DioError) {

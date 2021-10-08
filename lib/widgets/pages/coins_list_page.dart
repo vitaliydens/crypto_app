@@ -1,6 +1,8 @@
-import 'package:crypto_app/blocs/list_coins_bloc_cubit.dart';
+import 'package:crypto_app/api/repository.dart';
+import 'package:crypto_app/blocs/list_coins/list_coins_bloc_cubit.dart';
 import 'package:crypto_app/generated/l10n.dart';
 import 'package:crypto_app/widgets/components/crypto_cell.dart';
+import 'package:crypto_app/widgets/pages/coin_price_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,9 +17,11 @@ class _CoinsListPageState extends State<CoinsListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(S.of(context).title),),
+        appBar: AppBar(
+          title: Text(S.of(context).priceTitle),
+        ),
         body: BlocProvider(
-          create: (context) => ListCoinsBlocCubit()..loadCoinsData(),
+          create: (context) => ListCoinsBlocCubit(CoinRepository())..loadCoinsData(),
           child: Builder(builder: (context) {
             return BlocBuilder<ListCoinsBlocCubit, ListCoinsBlocState>(
               bloc: BlocProvider.of<ListCoinsBlocCubit>(context, listen: false),
@@ -32,20 +36,25 @@ class _CoinsListPageState extends State<CoinsListPage> {
                   return ListView.separated(
                       padding: const EdgeInsets.all(8),
                       itemCount: state.data.data.values.length,
-                      separatorBuilder: (BuildContext context, int index) => const Divider(),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                       itemBuilder: (context, index) {
                         var coin = state.data.data.values.toList()[index];
-                        return CryptoCell(coin: coin, onPressed: () {
-                          print(coin.symbol);
-                          var bloc = BlocProvider.of<ListCoinsBlocCubit>(context, listen: false);
-                          bloc.loadCoinPrice(coin.symbol);
-                        },);
+                        return CryptoCell(
+                          coin: coin,
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => CoinPricePage(
+                                      coinSymbol: coin.symbol,
+                                      coinName: coin.name,
+                                    )));
+                          },
+                        );
                       });
                 } else {
                   return const SizedBox();
                 }
               },
-              // builder: ,
             );
           }),
         ));
