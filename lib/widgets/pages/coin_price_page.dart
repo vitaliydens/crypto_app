@@ -16,7 +16,7 @@ class CoinPricePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).title),
+        title: Text(S.of(context).priceTitle),
       ),
       body: BlocProvider(
           create: (context) =>

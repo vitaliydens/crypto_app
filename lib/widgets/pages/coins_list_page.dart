@@ -18,7 +18,7 @@ class _CoinsListPageState extends State<CoinsListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).priceTitle),
+          title: Text(S.of(context).title),
         ),
         body: BlocProvider(
           create: (context) =>
